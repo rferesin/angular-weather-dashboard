@@ -1,0 +1,55 @@
+<section class="hero">
+  <h1>Como está o tempo?</h1>
+  <p>Busque uma cidade para ver o clima agora e a previsão dos próximos 7 dias.</p>
+  <app-search-bar [value]="search.query()" (queryChange)="search.setQuery($event)" />
+</section>
+
+@if (favorites.count() > 0) {
+  <section class="block" aria-labelledby="favorites-title">
+    <h2 id="favorites-title">⭐ Cidades favoritas</h2>
+    <app-city-list
+      [cities]="favorites.cities()"
+      [favoriteIds]="favorites.ids()"
+      (favoriteToggled)="favorites.toggle($event)"
+    />
+  </section>
+}
+
+<section class="block" aria-live="polite">
+  @switch (search.status()) {
+    @case ('loading') {
+      <app-spinner label="Buscando cidades…" />
+    }
+    @case ('error') {
+      <app-error-message [message]="search.error() ?? ''" (retry)="search.retry()" />
+    }
+    @case ('success') {
+      @if (search.hasNoResults()) {
+        <p class="empty">Nenhuma cidade encontrada para “{{ search.query() }}”.</p>
+      } @else {
+        <div class="results-header">
+          <h2>Resultados</h2>
+          <app-country-filter
+            [options]="search.countries()"
+            [selected]="search.countryFilter()"
+            (selectedChange)="search.setCountryFilter($event)"
+          />
+        </div>
+
+        <p class="count">{{ search.pagination().total }} cidade(s) encontrada(s)</p>
+
+        <app-city-list
+          [cities]="search.pagination().items"
+          [favoriteIds]="favorites.ids()"
+          (favoriteToggled)="favorites.toggle($event)"
+        />
+
+        <app-paginator
+          [page]="search.pagination().page"
+          [totalPages]="search.pagination().totalPages"
+          (pageChange)="search.goToPage($event)"
+        />
+      }
+    }
+  }
+</section>

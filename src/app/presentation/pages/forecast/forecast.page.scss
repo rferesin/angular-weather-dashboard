@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+.back {
+  display: inline-block;
+  margin: 0.5rem 0 1rem;
+  color: var(--color-primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

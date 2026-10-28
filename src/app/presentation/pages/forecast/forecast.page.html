@@ -1,0 +1,24 @@
+<a routerLink="/" class="back">← Voltar para a busca</a>
+
+@switch (store.status()) {
+  @case ('loading') {
+    <app-spinner label="Carregando previsão…" />
+  }
+  @case ('error') {
+    <app-error-message [message]="store.error() ?? ''" (retry)="store.reload()" />
+  }
+  @case ('success') {
+    @if (store.city(); as city) {
+      @if (store.report(); as report) {
+        <app-current-weather-card
+          [city]="city"
+          [current]="report.current"
+          [unit]="preferences.unit()"
+          [favorite]="favorites.ids().has(city.id)"
+          (favoriteToggled)="favorites.toggle(city)"
+        />
+        <app-forecast-list [days]="report.daily" [unit]="preferences.unit()" />
+      }
+    }
+  }
+}

@@ -1,0 +1,102 @@
+// ---------- Tokens de tema (claro por padrão) ----------
+:root {
+  --color-bg: #f4f7fb;
+  --color-surface: #ffffff;
+  --color-surface-alt: #eef3f9;
+  --color-text: #14202e;
+  --color-text-muted: #5b6b7d;
+  --color-border: #d8e0ea;
+  --color-primary: #1f6feb;
+  --color-primary-contrast: #ffffff;
+  --color-danger: #c62828;
+  --color-star: #e8a400;
+  --color-focus: rgba(31, 111, 235, 0.45);
+  --radius: 0.75rem;
+  --shadow: 0 6px 24px rgba(20, 32, 46, 0.08);
+  color-scheme: light;
+}
+
+@mixin dark-tokens {
+  --color-bg: #0e141b;
+  --color-surface: #17202b;
+  --color-surface-alt: #1f2b38;
+  --color-text: #e8eef5;
+  --color-text-muted: #98a8ba;
+  --color-border: #2a3846;
+  --color-primary: #5aa2ff;
+  --color-primary-contrast: #0e141b;
+  --color-danger: #ff8a80;
+  --color-star: #ffc93c;
+  --color-focus: rgba(90, 162, 255, 0.5);
+  --shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
+}
+
+// Sem escolha salva: segue o sistema operacional.
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    @include dark-tokens;
+  }
+}
+
+// Escolha explícita do usuário (definida pelo PreferencesStore).
+:root[data-theme='dark'] {
+  @include dark-tokens;
+}
+
+// ---------- Base ----------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  line-height: 1.5;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.container {
+  width: min(100% - 2rem, 48rem);
+  margin-inline: auto;
+}
+
+a:focus-visible,
+button:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+// Botão genérico reutilizado por vários componentes.
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-primary);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

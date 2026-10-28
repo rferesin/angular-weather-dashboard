@@ -1,0 +1,18 @@
+# Dependências e builds
+/node_modules
+/dist
+/out-tsc
+/.angular
+
+# Ambiente / editores
+.env
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-error.log
